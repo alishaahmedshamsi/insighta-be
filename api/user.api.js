@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { ROLES } from '../utils/constants.js';
 import { authMiddleware } from '../middlewares/index.js';
-import { fetchAllUsers, fetchUser } from '../controllers/index.js';
+import { fetchAllUsers, fetchUser, updateUser } from '../controllers/index.js';
 import { objectIdParamValidation } from '../validators/index.js';
 
 export default class UserAPI {
@@ -15,6 +15,7 @@ export default class UserAPI {
 
         router.get('/', authMiddleware(Object.values(ROLES)), fetchAllUsers);
         router.get('/:userId', authMiddleware(Object.values(ROLES)), objectIdParamValidation('userId'), fetchUser);
+        router.put('/', authMiddleware(Object.values(ROLES)),updateUser);
     }
 
     getRouter() {

@@ -19,7 +19,6 @@ export const parseBody = (body) => {
     else obj = JSON.parse(body);
     return obj;
 }
-
 // async handler for express routes
 export const asyncHandler = (requestHandler) => {
     return (req, res, next) => Promise.resolve(requestHandler(req, res, next)).catch((err) => next(err));

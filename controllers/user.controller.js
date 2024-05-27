@@ -30,3 +30,22 @@ export const fetchUser = asyncHandler(async (req, res, next) => {
 
     generateResponse(user, 'User fetched successfully', res);
 });
+
+export const updateUser = asyncHandler(async (req, res, next) => {
+   
+    if (req?.files?.image?.length > 0) {
+        let imageURL = await uploadOnCloudinary(req.files.image[0].path);
+    
+        if (!imageURL) {
+          return next({
+            statusCode: STATUS_CODES.BAD_REQUEST,
+            message: "Image failed why uploading on cloudinary",
+          });
+        }
+    
+        req.body.profilePicture = imageURL.secure_url;
+      }
+
+    const updatedUser = await user.updateOne(req.body);
+    generateResponse(updatedUser, 'User updated successfully', res);
+});

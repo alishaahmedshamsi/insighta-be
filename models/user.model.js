@@ -8,16 +8,17 @@ import { mongoosePlugin, mongooseAggregatePlugin, getAggregatedPaginatedData, ge
 const userSchema = new Schema({
     fullname: { type: String },
     email: { type: String, lowercase: true },
+    qualification:{type:String},
+    address:{type:String},
+    profilePicture:{type:String},
     password: { type: String, select: false },
     role: { type: String, enum: Object.values(ROLES), default: ROLES.USER },
-    classes: [{ type: Number }],
+    classes: [{ type: Schema.Types.ObjectId, ref: 'Class'}],
     section: [{ type: String }],
     school: { type: Schema.Types.ObjectId, ref: 'users' },
     otp: { type: Number,select:false },
     otpExpiry:{type:Date,select:false},
     points:{ type:Schema.Types.ObjectId,ref:'points'}
-
-
 }, { timestamps: true });
 
 // hash password before saving

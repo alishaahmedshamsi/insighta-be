@@ -11,7 +11,7 @@ export default class AuthAPI {
     }
 
     setupRoutes() {
-        this.router.post('/register',authMiddleware(ROLES.SCHOOL),registerValidation, register);
+        this.router.post('/register',authMiddleware(Object.values(ROLES)),registerValidation, register);
         this.router.post('/login', loginValidation, login);
         this.router.put('/forget', forgetPasswordValidation, forgetPassword);
         this.router.put('/reset',authMiddleware(Object.values(ROLES)),resetPasswordValidation, resetPassword);

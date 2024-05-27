@@ -6,11 +6,11 @@ import { getUser } from "../models/index.js";
 
 // user register validator
 const userRegisterValidator = Joi.object({
-    fullName: Joi.string().required(),
+    fullname: Joi.string().required(),
     email: Joi.string().trim().email({ minDomainSegments: 2 }).required(),
     password: Joi.string().required(),
     role: Joi.string().valid(...Object.values(ROLES)).required(),
-    classes:Joi.array().items(Joi.number()).when('role',{
+    classes:Joi.array().items(Joi.string()).when('role',{
         is: ROLES.SCHOOL,
         then: Joi.forbidden(),
         otherwise: Joi.required()

@@ -2,6 +2,8 @@ import { Router } from 'express';
 import RootAPI from './root.api.js';
 import AuthAPI from './auth.api.js';
 import UserAPI from './user.api.js';
+import AdminAPI from './admin.api.js';
+import SchoolAPI from './school.api.js';
 
 export default class API {
     constructor(app) {
@@ -14,6 +16,8 @@ export default class API {
         this.routeGroups.push(new RootAPI());
         this.routeGroups.push(new AuthAPI());
         this.routeGroups.push(new UserAPI());
+        this.routeGroups.push(new AdminAPI());
+        this.routeGroups.push(new SchoolAPI());
     }
 
     setContentType(req, res, next) {
