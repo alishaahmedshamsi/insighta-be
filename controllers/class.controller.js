@@ -1,9 +1,10 @@
-import { createClass, getClass } from '../models/classes.model.js';
+import { createClass, findClass, getClass } from '../models/classes.model.js';
 import { generateResponse, asyncHandler } from '../utils/helpers.js';
 
 export const createClasses = asyncHandler(async (req, res, next) => {
-    const isClassExist = await getClass({name:req.body.name, school:req.user.id});
-    
+
+    const isClassExist = await findClass({school:req.user.id, className:req.body.className});
+
     if(isClassExist) return next({
         message: 'Class already exist',
         statusCode: 400
