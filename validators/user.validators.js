@@ -7,4 +7,10 @@ const addOrUpdateUserValidator = Joi.object({
     password: Joi.string().min(8).required(),
 });
 
+const updateUserInfomation = Joi.object({
+    fullname: Joi.string().trim().required(),
+    location: Joi.string().trim().optional(),
+});
+
+export const updateUserInfo = validateBody(updateUserInfomation);
 export const userUpdateValidation = validateBody(addOrUpdateUserValidator);

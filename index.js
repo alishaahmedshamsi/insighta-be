@@ -46,7 +46,7 @@ app.use('/uploads', express.static('uploads'));
 app.use(cookieSession({
   name: 'session',
   keys: [process.env.COOKIE_KEY],
-  maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+  maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days,
 }));
 app.use(cors({ origin: "*", credentials: true }));
 // app.use(rateLimiter);

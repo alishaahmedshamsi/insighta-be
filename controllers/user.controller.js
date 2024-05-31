@@ -1,4 +1,5 @@
 import { getUser, getAllUsers } from "../models/index.js";
+import uploadOnCloudinary from "../utils/cloudinary.js";
 import { ROLES, STATUS_CODES } from "../utils/constants.js";
 import { asyncHandler, generateResponse } from '../utils/helpers.js';
 
@@ -32,14 +33,14 @@ export const fetchUser = asyncHandler(async (req, res, next) => {
 });
 
 export const updateUser = asyncHandler(async (req, res, next) => {
-   
+
+  const user = await getUser({ _id: req.user.id });
     if (req?.files?.image?.length > 0) {
-        let imageURL = await uploadOnCloudinary(req.files.image[0].path);
-    
+        let imageURL = await uploadOnCloudinary(req?.files?.image[0].path);
         if (!imageURL) {
           return next({
-            statusCode: STATUS_CODES.BAD_REQUEST,
             message: "Image failed why uploading on cloudinary",
+            statusCode: STATUS_CODES.BAD_REQUEST,
           });
         }
     

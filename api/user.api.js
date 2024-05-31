@@ -2,7 +2,8 @@ import { Router } from 'express';
 import { ROLES } from '../utils/constants.js';
 import { authMiddleware } from '../middlewares/index.js';
 import { fetchAllUsers, fetchUser, updateUser } from '../controllers/index.js';
-import { objectIdParamValidation } from '../validators/index.js';
+import { objectIdParamValidation, updateUserInfo  } from '../validators/index.js';
+import { upload } from '../utils/helpers.js';
 
 export default class UserAPI {
     constructor() {
@@ -15,7 +16,7 @@ export default class UserAPI {
 
         router.get('/', authMiddleware(Object.values(ROLES)), fetchAllUsers);
         router.get('/:userId', authMiddleware(Object.values(ROLES)), objectIdParamValidation('userId'), fetchUser);
-        router.put('/', authMiddleware(Object.values(ROLES)),updateUser);
+        router.put('/', authMiddleware(Object.values(ROLES)),upload("user").fields([{name:'image',maxCount:'1'}]),updateUserInfo,updateUser);
     }
 
     getRouter() {
