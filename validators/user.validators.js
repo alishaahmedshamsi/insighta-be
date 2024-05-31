@@ -10,6 +10,7 @@ const addOrUpdateUserValidator = Joi.object({
 const updateUserInfomation = Joi.object({
     fullname: Joi.string().trim().required(),
     location: Joi.string().trim().optional(),
+    image: Joi.string().trim().optional(),
 });
 
 export const updateUserInfo = validateBody(updateUserInfomation);

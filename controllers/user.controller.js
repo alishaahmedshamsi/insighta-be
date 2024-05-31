@@ -35,6 +35,7 @@ export const fetchUser = asyncHandler(async (req, res, next) => {
 export const updateUser = asyncHandler(async (req, res, next) => {
 
   const user = await getUser({ _id: req.user.id });
+  
     if (req?.files?.image?.length > 0) {
         let imageURL = await uploadOnCloudinary(req?.files?.image[0].path);
         if (!imageURL) {
@@ -43,10 +44,9 @@ export const updateUser = asyncHandler(async (req, res, next) => {
             statusCode: STATUS_CODES.BAD_REQUEST,
           });
         }
-    
+        console.log(imageURL.secure_url);
         req.body.profilePicture = imageURL.secure_url;
       }
-
     const updatedUser = await user.updateOne(req.body);
     generateResponse(updatedUser, 'User updated successfully', res);
 });
