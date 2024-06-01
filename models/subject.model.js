@@ -19,3 +19,4 @@ const Subject = mongoose.model('Subject', subjectSchema);
 
 export const createSubject = (obj) => Subject.create(obj);
 export const fetchSubject = (query) => Subject.find(query);
+export const findSubject = (query) => Subject.findOne(query);

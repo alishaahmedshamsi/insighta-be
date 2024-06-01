@@ -44,17 +44,15 @@ export const login = asyncHandler(async (req, res, next) => {
 });
 
 export const forgetPassword = asyncHandler(async (req, res, next) => {
-    // send email to user with password reset link
    const {email} = req.body
 
     const user = await getUser({ email });
     
     if (!user) return next({
-        statusCode: STATUS_CODES.NOT_FOUND,
+        statusCode: STATUS_CODES.BAD_REQUEST,
         message: 'User not found'
     });
 
-    // generate otp code
     const otp = generateOTP();
     user.otp = otp;
     user.save();

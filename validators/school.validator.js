@@ -8,7 +8,7 @@ import { validateBody } from "./validate.js";
 
  const subjectValidator = Joi.object({
     name: Joi.string().required(),
-    class: Joi.string().required(),
+    class: Joi.number().required(),
 });
 
 
