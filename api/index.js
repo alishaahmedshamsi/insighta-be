@@ -4,6 +4,7 @@ import AuthAPI from './auth.api.js';
 import UserAPI from './user.api.js';
 import AdminAPI from './admin.api.js';
 import SchoolAPI from './school.api.js';
+import AnnouncementAPI from './announcement.api.js';
 
 export default class API {
     constructor(app) {
@@ -18,6 +19,8 @@ export default class API {
         this.routeGroups.push(new UserAPI());
         this.routeGroups.push(new AdminAPI());
         this.routeGroups.push(new SchoolAPI());
+        this.routeGroups.push(new AnnouncementAPI());
+
     }
 
     setContentType(req, res, next) {

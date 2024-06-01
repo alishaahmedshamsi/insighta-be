@@ -6,7 +6,7 @@ import { generateResponse, asyncHandler } from '../utils/helpers.js';
 export const findSchoolsInfomation = asyncHandler(async (req, res, next) => {
     const limit = req.query.limit ? parseInt(req.query.limit) : 1000;
     const page = req.query.page ? parseInt(req.query.page) : 1;
-    const schoolId = req.query.schoolId ? req.query.schoolId : null;
+    const schoolId = req.query.schoolId ? req.query.schoolId : undefined;
 
     const pipeline = [
         {
@@ -49,6 +49,10 @@ export const findSchoolsInfomation = asyncHandler(async (req, res, next) => {
         },
     ]
 
+    pipeline.push({
+        $sort:{createdAt:-1}
+    })
+    
     if(schoolId) {
         pipeline.push({
             $match: { _id: new mongoose.Types.ObjectId(schoolId) }

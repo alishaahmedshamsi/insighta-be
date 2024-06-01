@@ -84,7 +84,6 @@ export const verifyOtp = asyncHandler(async (req, res, next) => {
     }
 
     const accessToken = user.generateAccessToken();
-
     generateResponse(accessToken, 'OTP verified successfully', res);
 })
 
