@@ -13,7 +13,7 @@ export const fetchAnnouncements = asyncHandler(async (req, res, next) => {
    const createdBy = req.query.createdBy;
    if(!createdBy) return generateResponse(null, 'Please provide createdBy', res, 400);
 
-    const response = await getAnnouncements({ createdBy });
+    const response = await getAnnouncements({ createdBy }).sort({ createdAt: -1 }) ;
    console.log(response);
     generateResponse(response, 'Announcements fetched successfully', res);
 });
