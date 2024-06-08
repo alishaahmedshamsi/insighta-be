@@ -15,12 +15,7 @@ const userRegisterValidator = Joi.object({
         then: Joi.forbidden(),
         otherwise: Joi.required()
     }),
-    section:Joi.array().items(Joi.string()).when('role',{
-        is: ROLES.SCHOOL,
-        then: Joi.forbidden(),
-        otherwise: Joi.required()
-    }),
-    
+    rollnumber:Joi.string().optional(),
 });
 // Validate email
 export const emailExistsValidator = asyncHandler(async (req, res, next) => {

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const classSchema = new mongoose.Schema({
     className: {
-        type: Number,
+        type: String,
     },
     school: {
         type: mongoose.Schema.Types.ObjectId,

@@ -13,10 +13,8 @@ const quizSchema = new mongoose.Schema({
         ref: 'users',
     },
     class:{
-        type: Number,
-    },
-    section:{
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Class',
     },
     createdAt: {
         type: Date,

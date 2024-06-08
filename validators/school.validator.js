@@ -3,12 +3,12 @@ import { validateBody } from "./validate.js";
 
 
  const classValidator = Joi.object({
-    className: Joi.number().required(),
+    className: Joi.string().required(),
 });
 
  const subjectValidator = Joi.object({
     name: Joi.string().required(),
-    class: Joi.number().required(),
+    class: Joi.string().required(),
 });
 
 
