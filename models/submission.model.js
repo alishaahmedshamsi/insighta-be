@@ -12,7 +12,11 @@ const quizSubmissionSchema = new mongoose.Schema({
     },
     student: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Student',
+        ref: 'user',
+    },
+    teacher:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
     },
     answers: {
         type: [String],
@@ -23,31 +27,13 @@ const quizSubmissionSchema = new mongoose.Schema({
     submittedAt: {
         type: Date,
         default: Date.now
+    },
+    isLate:{
+        type: Boolean,
+        default: false
     }
-    
 });
 
-// Define AssignmentSubmission schema
-const assignmentSubmissionSchema = new mongoose.Schema({
-    assignmentId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Assignment',
-        required: true
-    },
-    studentId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Student',
-        required: true
-    },
-    fileUrl: {
-        type: String,
-        required: true
-    },
-    submittedAt: {
-        type: Date,
-        default: Date.now
-    }
-});
 
 // Create QuizSubmission model
 const QuizSubmission = mongoose.model('QuizSubmission', quizSubmissionSchema);

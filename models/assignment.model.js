@@ -1,9 +1,13 @@
 import mongoose  from "mongoose";
+
 const assignmentSchema = new mongoose.Schema({
     title: {
         type: String,
     },
     description: {
+        type: String,
+    },
+    assignmentFile:{
         type: String,
     },
     deadline: {
@@ -20,6 +24,10 @@ const assignmentSchema = new mongoose.Schema({
     class:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Class',
+    },
+    subject:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Subject',
     },
     isDelated:{
         type: Boolean,

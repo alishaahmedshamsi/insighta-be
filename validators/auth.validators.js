@@ -16,6 +16,7 @@ const userRegisterValidator = Joi.object({
         otherwise: Joi.required()
     }),
     rollnumber:Joi.string().optional(),
+    subject:Joi.array().items(Joi.string()).optional()
 });
 // Validate email
 export const emailExistsValidator = asyncHandler(async (req, res, next) => {

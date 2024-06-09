@@ -7,18 +7,23 @@ const pointsSchema = new mongoose.Schema({
     },
     quiz: {
         type: Number,
+        default: 0
     },
     assignment: {
-        type:Number,        
+        type:Number,
+        default: 0        
     },
     review:{
         type: Number,
+        default: 0
     },
     lecture:{
         type:Number,
+        default: 0
     },
     total:{
         type:Number,
+        default: 0
     }
 });
 
