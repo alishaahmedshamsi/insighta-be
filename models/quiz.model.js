@@ -1,9 +1,8 @@
-import mongoose from mongoose;
+import mongoose from "mongoose";
 
 const quizSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true
         },
         question: [{
             type: String,
@@ -15,6 +14,9 @@ const quizSchema = new mongoose.Schema({
     class:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Class',
+    },
+    deadline:{
+        type: Date,
     },
     createdAt: {
         type: Date,

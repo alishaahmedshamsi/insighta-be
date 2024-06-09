@@ -1,5 +1,6 @@
 import { createAssignment, getAssignments } from '../models/assignment.model.js';
 import { getPoints } from '../models/points.model.js';
+import { createQuiz } from '../models/quiz.model.js';
 import uploadOnCloudinary from '../utils/cloudinary.js';
 import { generateResponse, asyncHandler } from '../utils/helpers.js';
 
@@ -37,7 +38,7 @@ export const teacherGetAssignments = asyncHandler(async (req, res) => {
 });
 
 export const teacherCreateQuiz = asyncHandler(async (req, res) => {
-    const createdBy = req.user._id;
+    const createdBy = req.user.id;
     const quiz = await createQuiz(req.body);
     const teacher = await getPoints({ user: createdBy });
     teacher.quiz += 30;
