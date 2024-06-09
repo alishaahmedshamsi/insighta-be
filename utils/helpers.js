@@ -31,13 +31,14 @@ const generateFilename = (req, file, cb) => {
 }
 
 // filter image, docs and pdf files
-const filterImageOrDocsOrPDF = (req, file, cb) => {
-    if (!file.mimetype.match(/image\/(jpg|JPG|webp|jpeg|JPEG|png|PNG|gif|GIF|jfif|JFIF|svg|SVG|bmp|BMP|ico|ICO|tiff|TIFF|psd|PSD|pdf|PDF|doc|DOC|docx|DOCX|xls|XLS|xlsx|XLSX|ppt|PPT|pptx|PPTX)/)) {
-        req.fileValidationError = 'Only image, docs and pdf files are allowed!';
+export const filterImageDocsPDFOrVideo = (req, file, cb) => {
+    if (!file.mimetype.match(/image\/(jpg|JPG|webp|jpeg|JPEG|png|PNG|gif|GIF|jfif|JFIF|svg|SVG|bmp|BMP|ico|ICO|tiff|TIFF|psd|PSD)|application\/(pdf|PDF|msword|vnd\.openxmlformats-officedocument\.wordprocessingml\.document|vnd\.ms-excel|vnd\.openxmlformats-officedocument\.spreadsheetml\.sheet|vnd\.ms-powerpoint|vnd\.openxmlformats-officedocument\.presentationml\.presentation)|video\/(mp4|MP4|avi|AVI|mov|MOV|mkv|MKV|flv|FLV|wmv|WMV|webm|WEBM)/)) {
+        req.fileValidationError = 'Only image, docs, pdf, and video files are allowed!';
         return cb(null, false);
     }
     cb(null, true);
 }
+
 
 // upload file with multer
 export const upload = (folderName) => {
@@ -53,7 +54,7 @@ export const upload = (folderName) => {
             filename: generateFilename
         }),
         limits: { fileSize: 10 * 1024 * 1024 },  // max 10MB //
-        fileFilter: filterImageOrDocsOrPDF
+        fileFilter: filterImageDocsPDFOrVideo
     })
 }
 

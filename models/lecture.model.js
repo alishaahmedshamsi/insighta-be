@@ -7,9 +7,12 @@ const lectureSchema = new mongoose.Schema({
     description: {
         type: String,
     },
+    lecture:{
+        type: String,
+    },
     teacher: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Teacher',
+        ref: 'user',
     },
     class:{
         type: mongoose.Schema.Types.ObjectId,
@@ -22,4 +25,7 @@ const lectureSchema = new mongoose.Schema({
 },{timestamps:true});
 
 const Lecture = mongoose.model('Lecture', lectureSchema);
-module.exports = Lecture;
+
+export const createLecture = (obj) => Lecture.create(obj);
+export const getLectures = (query) => Lecture.find(query);
+export const getLecture = (query) => Lecture.findOne(query).populate('teacher').populate('class').populate('subject');
