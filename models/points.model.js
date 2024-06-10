@@ -27,6 +27,7 @@ const pointsSchema = new mongoose.Schema({
     }
 });
 
+
 const Points = mongoose.model('points', pointsSchema);
 
 export const createPoints = (obj) => Points.create(obj);

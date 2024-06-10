@@ -107,7 +107,7 @@ export const resetPassword = asyncHandler(async (req, res, next) => {
 
 export const currentUser = asyncHandler(async (req, res, next) => {
   
-    const user = await getUser({_id:req.user.id}).lean().populate('classes');  
+    const user = await getUser({_id:req.user.id}).lean().populate('classes').populate('subject');  
     generateResponse(user, 'User details', res);
 })
 

@@ -57,12 +57,12 @@ export const teacherCreateQuiz = asyncHandler(async (req, res) => {
 });
 
 export const teacherGetQuizzes = asyncHandler(async (req, res,next) => {
-    const quizzes = await findQuizzes({ createdBy: req.user.id });
+    const classroom = req.query.classroom;
+    const quizzes = await findQuizzes({ createdBy: req.user.id,class: classroom});
     generateResponse(quizzes,"Quizzes fetched successfully",res);
 });
 
 export const createLectures = asyncHandler(async (req, res,next) => {
-    try {
         const createdBy = req.user.id;
         req.body.teacher = createdBy
         
@@ -82,8 +82,11 @@ export const createLectures = asyncHandler(async (req, res,next) => {
         teacher.lecture += 10;
         await teacher.save();
         generateResponse(lecture,"Lecture created successfully",res);
-    } catch (error) {
-        console.log(error);
-    }
-   
 })
+
+export const getLectures = asyncHandler(async (req, res) => {
+    const classroom = req.query.class;
+    const lectures = await getLectures({ teacher: req.user.id,class: classroom});
+    generateResponse(lectures,"Lectures fetched successfully",res);
+});
+
