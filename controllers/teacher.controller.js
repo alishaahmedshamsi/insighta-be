@@ -3,9 +3,10 @@ import { createLecture, getLecture } from '../models/lecture.model.js';
 import { getPoints } from '../models/points.model.js';
 import { createQuiz, findQuizzes } from '../models/quiz.model.js';
 import uploadOnCloudinary from '../utils/cloudinary.js';
+import { STATUS_CODES } from '../utils/constants.js';
 import { generateResponse, asyncHandler } from '../utils/helpers.js';
-
-export const teacherCreateAssignment = asyncHandler(async (req, res) => {
+import { createChat } from '../models/chat.model.js';
+export const teacherCreateAssignment = asyncHandler(async (req, res,next) => {
     const createdBy = req.user.id;
     req.body.createdBy = createdBy;
     if(!req.files.assignmentFile){
@@ -26,11 +27,13 @@ export const teacherCreateAssignment = asyncHandler(async (req, res) => {
         req.body.assignmentFile = assignmentFile.secure_url;
     }
     const assignment = await createAssignment(req.body);
+    const chatBoxCreated = await createChat({ assignment: assignment._id });
+
     const teacher = await getPoints({ user: createdBy });
     teacher.assignment += 20;
     await teacher.save();
     
-    generateResponse(assignment,"Assignment created successfully",res);
+    generateResponse({assignment,chatBoxCreated},"Assignment created successfully",res);
 });
 
 export const teacherGetAssignments = asyncHandler(async (req, res) => {

@@ -32,7 +32,7 @@ export const fetchStudentAssignment = asyncHandler(async (req, res) => {
     });
 
 
-export const fetchStudentLecture = asyncHandler(async (req, res) => {
+export const fetchStudentLecture = asyncHandler(async (req, res,next) => {
     if(req.query.subject === undefined){
         return next({
             message: "Subject is required",
@@ -41,6 +41,6 @@ export const fetchStudentLecture = asyncHandler(async (req, res) => {
     }
 
     const quiz = await getLectures({subject:req.query.subject});
-    generateResponse(quiz, "Students fetched successfully", res);
+    generateResponse(quiz, "Students lecture fetched successfully", res);
 })
 

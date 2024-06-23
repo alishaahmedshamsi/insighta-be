@@ -11,7 +11,7 @@ export default class StudentAPI {
 
     setupRoutes() {
         this.router.get('/student-quiz',authMiddleware(Object.values(ROLES)),fetchStudentsQuiz);
-        this.router.get('/student-lecture',authMiddleware(Object.values(ROLES)),fetchStudentLecture);
+        this.router.get('/student-lecture/get',authMiddleware(Object.values(ROLES)),fetchStudentLecture);
         this.router.get('/student-assignment',authMiddleware(Object.values(ROLES)),fetchStudentAssignment);  
     }
 
