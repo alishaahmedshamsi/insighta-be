@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {authMiddleware} from '../middlewares/auth.middleware.js';
 import { ROLES } from '../utils/constants.js';
 import { fetchStudentAssignment, fetchStudentLecture, fetchStudentsQuiz } from '../controllers/student.controller.js';
+
 export default class StudentAPI {
     constructor() {
         this.router = Router();
