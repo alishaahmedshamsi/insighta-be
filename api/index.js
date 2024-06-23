@@ -6,6 +6,7 @@ import AdminAPI from './admin.api.js';
 import SchoolAPI from './school.api.js';
 import AnnouncementAPI from './announcement.api.js';
 import TeacherAPI from './teacher.api.js';
+import StudentAPI from './student.api.js';
 
 export default class API {
     constructor(app) {
@@ -22,6 +23,7 @@ export default class API {
         this.routeGroups.push(new SchoolAPI());
         this.routeGroups.push(new AnnouncementAPI());
         this.routeGroups.push(new TeacherAPI());
+        this.routeGroups.push(new StudentAPI());
 
     }
 

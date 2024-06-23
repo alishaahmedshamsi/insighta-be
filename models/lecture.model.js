@@ -28,4 +28,4 @@ const Lecture = mongoose.model('Lecture', lectureSchema);
 
 export const createLecture = (obj) => Lecture.create(obj);
 export const getLectures = (query) => Lecture.find(query);
-export const getLecture = (query) => Lecture.findOne(query).populate('teacher').populate('class').populate('subject');
+export const getLecture = (query) => Lecture.findOne(query);

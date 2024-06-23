@@ -1,5 +1,5 @@
 import { createAssignment, getAssignments } from '../models/assignment.model.js';
-import { createLecture } from '../models/lecture.model.js';
+import { createLecture, getLecture } from '../models/lecture.model.js';
 import { getPoints } from '../models/points.model.js';
 import { createQuiz, findQuizzes } from '../models/quiz.model.js';
 import uploadOnCloudinary from '../utils/cloudinary.js';
@@ -84,9 +84,9 @@ export const createLectures = asyncHandler(async (req, res,next) => {
         generateResponse(lecture,"Lecture created successfully",res);
 })
 
-export const getLectures = asyncHandler(async (req, res) => {
+export const getLectures = asyncHandler(async (req, res,next) => {
     const classroom = req.query.class;
-    const lectures = await getLectures({ teacher: req.user.id,class: classroom});
+    const lectures = await getLecture({ teacher: req.user.id,class: classroom});
     generateResponse(lectures,"Lectures fetched successfully",res);
 });
 

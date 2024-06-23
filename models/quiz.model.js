@@ -22,6 +22,10 @@ const quizSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    subject:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Subject',
+    },
     isDeleted:{
         type:Boolean,
         default:false
