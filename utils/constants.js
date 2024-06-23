@@ -14,7 +14,7 @@ export const STATUS_CODES = Object.freeze({
 
 export const ROLES = Object.freeze({
   ADMIN: 'admin',
-  USER: 'student',
+  STUDENT: 'student',
   TEACHER: 'teacher',
   SCHOOL: 'school',
 });

@@ -1,6 +1,7 @@
 import { generateResponse, asyncHandler, generateOTP } from '../utils/helpers.js';
 import { createPoints, createUser, getUser } from '../models/index.js';
 import { ROLES, STATUS_CODES } from '../utils/constants.js';
+import { fetchSubject, findSubject } from '../models/subject.model.js';
 
 // register user
 export const register = asyncHandler(async (req, res, next) => {
@@ -8,6 +9,12 @@ export const register = asyncHandler(async (req, res, next) => {
     // create user in db
     if(req.body.role != ROLES.SCHOOL) req.body.school = req.user.id
 
+
+    if(req.body.role == ROLES.STUDENT){
+        const findSubjects = await fetchSubject({class:req.body.classes[0]})
+        console.log(findSubjects);
+        req.body.subject = findSubjects.map(subject => subject._id)
+    }
     let user = await createUser(req.body);
     await createPoints({user:user._id})
     

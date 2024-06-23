@@ -26,6 +26,7 @@ export const teacherCreateAssignment = asyncHandler(async (req, res,next) => {
         }
         req.body.assignmentFile = assignmentFile.secure_url;
     }
+    
     const assignment = await createAssignment(req.body);
     const chatBoxCreated = await createChat({ assignment: assignment._id });
 
