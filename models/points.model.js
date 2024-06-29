@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const pointsSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:'users'
+        ref:'User'
     },
     quiz: {
         type: Number,

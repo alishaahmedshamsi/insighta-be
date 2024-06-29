@@ -19,7 +19,6 @@ const userSchema = new Schema({
     school: { type: Schema.Types.ObjectId, ref: 'users' },
     otp: { type: Number,select:false },
     otpExpiry:{type:Date,select:false},
-    points:{ type:Schema.Types.ObjectId,ref:'points'}
 }, { timestamps: true });
 
 // hash password before saving
