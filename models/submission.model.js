@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 // Define QuizSubmission schema
-const quizSubmissionSchema = new mongoose.Schema({
+const submissionSchema = new mongoose.Schema({
     quizId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'quiz',
@@ -18,6 +18,9 @@ const quizSubmissionSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
     },
+    question:{
+        type: [String],
+    },
     answers: {
         type: [String],
     },
@@ -31,17 +34,18 @@ const quizSubmissionSchema = new mongoose.Schema({
     isLate:{
         type: Boolean,
         default: false
+    },
+    isQuiz:{
+        type: Boolean,
+        default: false
     }
 });
 
 
 // Create QuizSubmission model
-const QuizSubmission = mongoose.model('QuizSubmission', quizSubmissionSchema);
-
-// Create AssignmentSubmission model
-const AssignmentSubmission = mongoose.model('AssignmentSubmission', assignmentSubmissionSchema);
-
-module.exports = {
-    QuizSubmission,
-    AssignmentSubmission
-};
+const Submission = mongoose.model('Submission', submissionSchema);
+export const createSubmission = (obj) => Submission.create(obj)
+export const getSubmissionById = (query) => Submission.findOne(query)
+export const getSubmission = (query) => Submission.find(query) 
+export const updateSubmissions = (query,update) => Submission.updateOne(query,update)
+export const deleteSubmissions = (id) => Submission.findByIdAndDelete(id)

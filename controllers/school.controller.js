@@ -40,3 +40,23 @@ export const users = asyncHandler(async (req, res, next) => {
 
     generateResponse(users, 'Subjects fetched successfully', res);
 })
+export const fetchTop5Users = asyncHandler(async (req, res, next) => {
+    const limit = req.query.limit ? parseInt(req.query.limit) : 100000;
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const query = [];
+
+    query.push({
+        $match:{school: new mongoose.Types.ObjectId(req.user.id)}
+    })
+
+    query.push({
+        $lookup:{
+            from:'point',
+            localField:'user',
+            foreignField:'_id',
+            as:'points'
+        }
+    })
+    const users = await getAllUsers({limit,page,query})
+    generateResponse(users , 'Top 5 users fetched successfully', res);
+})

@@ -18,6 +18,7 @@ export default class SchoolAPI {
         this.router.post('/subject-create',authMiddleware(Object.values(ROLES)),subjectValidation,createSubjects);
         this.router.get('/get/subjects/:id',authMiddleware(Object.values(ROLES)), getSubects);
         this.router.get('/fetch/users',authMiddleware(Object.values(ROLES)), users);
+        
     }
 
     getRouter() {

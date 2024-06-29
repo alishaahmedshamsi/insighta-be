@@ -8,6 +8,8 @@ import AnnouncementAPI from './announcement.api.js';
 import TeacherAPI from './teacher.api.js';
 import StudentAPI from './student.api.js';
 import MessageAPI from './message.api.js';
+import SubmissionAPI from './submission.api.js';
+import PointsAPI from './points.api.js';
 
 export default class API {
     constructor(app) {
@@ -26,6 +28,8 @@ export default class API {
         this.routeGroups.push(new TeacherAPI());
         this.routeGroups.push(new StudentAPI());
         this.routeGroups.push(new MessageAPI());
+        this.routeGroups.push(new SubmissionAPI());
+        this.routeGroups.push(new PointsAPI());
     }
 
     setContentType(req, res, next) {
