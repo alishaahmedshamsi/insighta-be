@@ -65,3 +65,9 @@ export const getUserPoints = asyncHandler(async (req, res, next) => {
   await userPoints.save();
   generateResponse(userPoints, "Points fetched successfully", res);
 });
+
+export const userSubject = asyncHandler(async (req, res, next) => {
+  const user = await getUser({ _id: req.user.id }).populate("subject");
+  const subject = user.subject;
+  generateResponse(subject, "User fetched successfully", res);
+})
