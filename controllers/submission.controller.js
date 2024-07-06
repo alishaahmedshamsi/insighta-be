@@ -99,4 +99,12 @@ export const deleteSubmission = asyncHandler(async (req, res, next) => {
 })
 
 
+export const checkStatus = asyncHandler(async (req, res, next) => {
+    const submission = await getSubmission({ assignmentId: req.query.assignmentId});
 
+    if(!submission){
+        generateResponse('Pending', "Submission not found", res);
+    }
+
+    generateResponse('Submitted', "Submission fetched successfully", res);   
+})

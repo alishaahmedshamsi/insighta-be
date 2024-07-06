@@ -26,7 +26,7 @@ export const fetchStudentAssignment = asyncHandler(async (req, res) => {
                 statusCode: STATUS_CODES.BAD_REQUEST,
             })
         }
-    
+        
         const quiz = await getAssignments({subject:req.query.subject});
         generateResponse(quiz, "Students fetched successfully", res);
     });
