@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-// Define QuizSubmission schema
 const submissionSchema = new mongoose.Schema({
     quizId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -13,6 +12,14 @@ const submissionSchema = new mongoose.Schema({
     student: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
+    },
+    subject:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'subject',
+    },
+    class:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'class',
     },
     teacher:{
         type: mongoose.Schema.Types.ObjectId,
@@ -38,6 +45,14 @@ const submissionSchema = new mongoose.Schema({
     isQuiz:{
         type: Boolean,
         default: false
+    },
+    status:{
+        type: String,
+        default: 'pending'
+    },
+    obtainMarks:{
+        type: Number,
+        default: 0
     }
 });
 

@@ -14,6 +14,10 @@ const lectureSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
     },
+    isVideo:{
+        type: Boolean,
+        default: false
+    },
     class:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Class',

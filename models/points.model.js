@@ -25,6 +25,7 @@ const pointsSchema = new mongoose.Schema({
         type:Number,
         default: 0
     }
+    
 });
 
 

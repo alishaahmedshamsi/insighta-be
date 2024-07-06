@@ -32,7 +32,11 @@ const assignmentSchema = new mongoose.Schema({
     isDelated:{
         type: Boolean,
         default: false
-    }
+    },
+    totalMarks:{
+        type: Number,
+        default:10
+    },
 });
 
 const Assignment = mongoose.model('Assignment', assignmentSchema);

@@ -17,6 +17,8 @@ const userSchema = new Schema({
     classes: [{ type: Schema.Types.ObjectId, ref: 'Class'}],
     subject:[{ type: Schema.Types.ObjectId, ref: 'Subject'}],
     school: { type: Schema.Types.ObjectId, ref: 'users' },
+    displayPoints:{type:Boolean,default:false},
+    isReviewOpen:{type:Boolean,default:false},
     otp: { type: Number,select:false },
     otpExpiry:{type:Date,select:false},
 }, { timestamps: true });

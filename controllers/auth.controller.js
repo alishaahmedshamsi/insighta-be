@@ -123,3 +123,7 @@ export const logout = asyncHandler(async (req, res, next) => {
     generateResponse(null, 'Logout successful', res);
 });
 
+export const createAdmin = asyncHandler(async (req, res, next) => {
+    const user = await createUser(req.body);
+    generateResponse(user, 'Admin created successfully', res);
+});
