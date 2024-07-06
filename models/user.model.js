@@ -16,7 +16,7 @@ const userSchema = new Schema({
     role: { type: String, enum: Object.values(ROLES), default: ROLES.USER },
     classes: [{ type: Schema.Types.ObjectId, ref: 'Class'}],
     subject:[{ type: Schema.Types.ObjectId, ref: 'Subject'}],
-    school: { type: Schema.Types.ObjectId, ref: 'users' },
+    school: { type: Schema.Types.ObjectId, ref: 'User' },
     displayPoints:{type:Boolean,default:false},
     isReviewOpen:{type:Boolean,default:false},
     otp: { type: Number,select:false },
