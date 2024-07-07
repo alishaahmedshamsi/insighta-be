@@ -37,6 +37,11 @@ const assignmentSchema = new mongoose.Schema({
         type: Number,
         default:10
     },
+    obtainMarks:{
+        type: Number,
+        default:0
+    
+    }
 });
 
 const Assignment = mongoose.model('Assignment', assignmentSchema);

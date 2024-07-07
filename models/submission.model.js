@@ -3,27 +3,27 @@ import mongoose from "mongoose";
 const submissionSchema = new mongoose.Schema({
     quizId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'quiz',
+        ref: 'Quiz',
     },
     assignmentId:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'assignment',
+        ref: 'Assignment',
     },
     student: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
+        ref: 'User',
     },
     subject:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'subject',
+        ref: 'Subject',
     },
     class:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'class',
+        ref: 'Class',
     },
     teacher:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
+        ref: 'User',
     },
     question:{
         type: [String],

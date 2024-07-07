@@ -15,7 +15,7 @@ export default class SubmissionAPI {
         this.router.get('/',authMiddleware(Object.values(ROLES)),getSubmissions);
         this.router.get('/status',authMiddleware(Object.values(ROLES)),checkStatus);
         this.router.get('/:id',authMiddleware(Object.values(ROLES)),fetchSubmissionById);
-        this.router.put('/:id',authMiddleware(Object.values(ROLES)),upload("assignment").fields([{name:'image',maxCount:'1'}]),updateSubmission);
+        this.router.put('/:id',authMiddleware(Object.values(ROLES)),updateSubmission);
         this.router.delete('/:id',authMiddleware(Object.values(ROLES)),deleteSubmission);
     }
 

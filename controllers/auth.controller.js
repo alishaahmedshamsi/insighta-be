@@ -8,14 +8,16 @@ export const register = asyncHandler(async (req, res, next) => {
     
     // create user in db
     if(req.body.role != ROLES.SCHOOL) req.body.school = req.user.id
-
+    
 
     if(req.body.role == ROLES.STUDENT){
         const findSubjects = await fetchSubject({class:req.body.classes[0]})
         console.log(findSubjects);
         req.body.subject = findSubjects.map(subject => subject._id)
     }
+    req.body.rollNumber = req.body.rollnumber
     let user = await createUser(req.body);
+    
     await createPoints({user:user._id})
     
     // remove password

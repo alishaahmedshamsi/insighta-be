@@ -3,9 +3,11 @@ import { createLecture, getLecture } from '../models/lecture.model.js';
 import { getPoints } from '../models/points.model.js';
 import { createQuiz, findQuizzes } from '../models/quiz.model.js';
 import uploadOnCloudinary from '../utils/cloudinary.js';
-import { STATUS_CODES } from '../utils/constants.js';
+import { ROLES, STATUS_CODES } from '../utils/constants.js';
 import { generateResponse, asyncHandler } from '../utils/helpers.js';
 import { createChat } from '../models/chat.model.js';
+import { getAllUsers } from '../models/user.model.js';
+import mongoose from 'mongoose';
 export const teacherCreateAssignment = asyncHandler(async (req, res,next) => {
     const createdBy = req.user.id;
     req.body.createdBy = createdBy;
@@ -66,27 +68,36 @@ export const teacherGetQuizzes = asyncHandler(async (req, res,next) => {
     generateResponse(quizzes,"Quizzes fetched successfully",res);
 });
 
-export const createLectures = asyncHandler(async (req, res,next) => {
-        const createdBy = req.user.id;
-        req.body.teacher = createdBy
-        
-        if(req?.files?.lecture){
-            let lectureFile = await uploadOnCloudinary(req?.files?.lecture[0].path);
-            if (!lectureFile) {
-              return next({
-                message: "Lecture file failed why uploading on cloudinary",
+export const createLectures = asyncHandler(async (req, res, next) => {
+    const createdBy = req.user.id;
+    req.body.teacher = createdBy;
+
+    if (req?.files?.lecture) {
+        let lectureFile = await uploadOnCloudinary(req?.files?.lecture[0].path);
+        if (!lectureFile) {
+            return next({
+                message: "Lecture file failed while uploading on Cloudinary",
                 statusCode: STATUS_CODES.BAD_REQUEST,
-              });
-            }
-            console.log(lectureFile.secure_url);
-            req.body.lecture = lectureFile.secure_url;
+            });
         }
-        const lecture = await createLecture(req.body);
-        const teacher = await getPoints({ user: createdBy });
-        teacher.lecture += 10;
-        await teacher.save();
-        generateResponse(lecture,"Lecture created successfully",res);
-})
+        
+        const mimeType = req?.files?.lecture[0]?.mimetype;
+        const videoMimeTypes = ["video/mp4", "video/mpeg", "video/ogg", "video/webm", "video/quicktime"];
+        req.body.isVideo = videoMimeTypes.includes(mimeType);
+        
+        console.log(lectureFile.secure_url);
+        req.body.lecture = lectureFile.secure_url;
+    } else {
+        req.body.isVideo = false;
+    }
+
+    const lecture = await createLecture(req.body);
+    const teacher = await getPoints({ user: createdBy });
+    teacher.lecture += 10;
+    await teacher.save();
+    generateResponse(lecture, "Lecture created successfully", res);
+});
+
 
 export const getLectures = asyncHandler(async (req, res,next) => {
     const classroom = req.query.class;
@@ -94,3 +105,37 @@ export const getLectures = asyncHandler(async (req, res,next) => {
     generateResponse(lectures,"Lectures fetched successfully",res);
 });
 
+export const getSingleClassTeachers = asyncHandler(async (req, res, next) => {
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const page = parseInt(req.query.page, 10) || 1;
+    let classes = req.query.class;
+
+    if (!classes) {
+        return next({
+            message: "No class specified",
+            statusCode: 400,
+        });
+    }
+    const teacherClass = new mongoose.Types.ObjectId(classes);
+
+
+    const pipeline = [
+        {
+            $match: {
+                role: ROLES.TEACHER,
+                classes: { $in: [teacherClass] }
+            }
+        }
+    ];
+
+    const teachers = await getAllUsers({ limit, page, query:pipeline});
+
+     teachers.reviewStatus = await findReviewIfExist();
+    generateResponse(teachers, "Teachers fetched successfully", res);
+});
+
+
+ const findReviewIfExist =  async (studentId,teacherId)  => {
+    const review = await findSIngleReview({ studentId: studentId,teacherId:teacherId});
+    return review
+  };

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { fetchTop5Users } from '../controllers/school.controller.js';
+import { fetchGloabalTop5Users, fetchTop5Users } from '../controllers/school.controller.js';
 import {authMiddleware} from '../middlewares/auth.middleware.js';
 import { ROLES } from '../utils/constants.js';
 export default class PointsAPI {
@@ -9,6 +9,7 @@ export default class PointsAPI {
     }
     setupRoutes() {
         this.router.get('/',authMiddleware(Object.values(ROLES)),fetchTop5Users);
+        this.router.get('/global',authMiddleware(Object.values(ROLES)),fetchGloabalTop5Users);
     }
 
     getRouter() {

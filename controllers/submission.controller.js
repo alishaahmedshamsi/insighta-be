@@ -18,7 +18,6 @@ export const createSubmissions = asyncHandler(async (req, res, next) => {
         console.log(req.body.assignmentId);
         findSubmission = await getSubmissionById({ student: req.user.id,assignmentId:req.body.assignmentId });
     }
-    console.log(findSubmission);
     if(findSubmission){
         return next({
             message: "Submission already exist",
@@ -37,7 +36,7 @@ export const createSubmissions = asyncHandler(async (req, res, next) => {
     }
     req.body.pdf = imageURL.secure_url;
   } 
-  
+    req.body.status = 'Submitted';
     const submission = await createSubmission(req.body);
 
     const userPoints = await getPoints({ user: req.user.id });
@@ -54,12 +53,19 @@ export const createSubmissions = asyncHandler(async (req, res, next) => {
 export const getSubmissions = asyncHandler(async (req, res, next) => {
     const user = await getUser({ _id: req.user.id });
     const quiz = req.query.isQuiz || true;
+    const id = req.query.id || null;
+    const subject = req.query.subject 
+    
     let submission
     if(user.role === 'teacher'){
-        submission = await getSubmission({ teacher: req.user.id,isQuiz:quiz });
+        submission = await getSubmission({ teacher: req.user.id, isQuiz: quiz, $or: [
+            { assignmentId: id },
+            { quizId: id }
+        ]}).populate('quizId').populate('assignmentId').populate('student')
     }
     else{
-        submission = await getSubmission({ student: req.user.id,isQuiz:quiz });
+        console.log(subject);
+        submission = await getSubmission({ student: req.user.id,isQuiz:quiz,subject:subject }).populate('quizId').populate('assignmentId');
     }
 
     generateResponse(submission, "Submission fetched successfully", res);
@@ -76,15 +82,29 @@ export const fetchSubmissionById = asyncHandler(async (req, res, next) => {
 })
 
 export const updateSubmission = asyncHandler(async (req, res, next) => {
-    const submission = await getSubmission({ _id: req.params.id });
+
+    const {grade} = req.body;
+    const submission = await getSubmissionById({ _id: req.params.id });
     if (!submission) {
         return next({
             message: "Submission not found",
             statusCode: STATUS_CODES.NOT_FOUND,
         });
     }
-    const updatedSubmission = await updateSubmissions(req.body);
-    generateResponse(updatedSubmission, "Submission updated successfully", res);
+    
+    if(submission.totalMarks < grade){
+        return next({
+            message: "Grade is greater than total marks",
+            statusCode: STATUS_CODES.BAD_REQUEST,
+        });
+    }
+
+    submission.obtainMarks = grade;
+    await submission.save();
+    // console.log("==========",submission.obtainMarks);
+
+    generateResponse(submission, "Submission updated successfully", res);
+
 })
 
 export const deleteSubmission = asyncHandler(async (req, res, next) => {
