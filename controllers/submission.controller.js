@@ -127,3 +127,13 @@ export const checkStatus = asyncHandler(async (req, res, next) => {
     generateResponse('Submitted', "Submission fetched successfully", res);   
 })
 
+
+export const checkStatusQuiz = asyncHandler(async (req, res, next) => {
+    const submission = await getSubmission({ quizId: req.query.quizId,student:req.user.id});
+    if(submission.length === 0){
+        generateResponse('Pending', "Submission not found", res);
+    }
+
+    generateResponse('Submitted', "Submission fetched successfully", res);   
+})
+
