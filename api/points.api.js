@@ -7,9 +7,10 @@ export default class PointsAPI {
         this.router = Router();
         this.setupRoutes();
     }
+    
     setupRoutes() {
         this.router.get('/',authMiddleware(Object.values(ROLES)),fetchTop5Users);
-        this.router.get('/global',authMiddleware(Object.values(ROLES)),fetchGloabalTop5Users);
+        this.router.get('/global',fetchGloabalTop5Users);
     }
 
     getRouter() {

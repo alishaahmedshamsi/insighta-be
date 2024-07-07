@@ -187,8 +187,9 @@ export const fetchGloabalTop5Users = asyncHandler(async (req, res, next) => {
                 _id: 1,
                 fullname: 1, 
                 email: 1,
+                profilePicture:1,
                 school: '$schoolData.fullname', // Assuming name is a field in the users collection
-                totalPoints: '$points.total'
+                points: 1
             }
         },
         {
@@ -233,8 +234,10 @@ export const fetchGloabalTop5Users = asyncHandler(async (req, res, next) => {
                 _id: 1,
                 fullname: 1,
                 email: 1,
+                profilePicture:1,
                 school: '$schoolData.fullname', // Assuming name is a field in the users collection
-                totalPoints: '$points.total'
+                points:1,
+                
             }
         },
         {

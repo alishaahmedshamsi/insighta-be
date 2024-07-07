@@ -130,8 +130,9 @@ export const getSingleClassTeachers = asyncHandler(async (req, res, next) => {
 
     const teachers = await getAllUsers({ limit, page, query:pipeline});
 
-     teachers.reviewStatus = await findReviewIfExist();
-    generateResponse(teachers, "Teachers fetched successfully", res);
+    //  teachers.reviewStatus = await findReviewIfExist();
+    
+     generateResponse(teachers, "Teachers fetched successfully", res);
 });
 
 
