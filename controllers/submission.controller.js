@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { getPoints } from "../models/points.model.js";
 import { createSubmission, deleteSubmissions, getSubmission, getSubmissionById, updateSubmissions } from "../models/submission.model.js";
 import { getUser } from "../models/user.model.js";
@@ -52,7 +53,7 @@ export const createSubmissions = asyncHandler(async (req, res, next) => {
 
 export const getSubmissions = asyncHandler(async (req, res, next) => {
     const user = await getUser({ _id: req.user.id });
-    const quiz = req.query.isQuiz || true;
+    const quiz = req.query.isQuiz == 'true' ? true : false;
     const id = req.query.id || null;
     const subject = req.query.subject 
     
@@ -61,11 +62,17 @@ export const getSubmissions = asyncHandler(async (req, res, next) => {
         submission = await getSubmission({ teacher: req.user.id, isQuiz: quiz, $or: [
             { assignmentId: id },
             { quizId: id }
-        ]}).populate('quizId').populate('assignmentId').populate('student')
+        ]}).populate('quizId').populate('assignmentId').populate('student');
+        console.log(submission)
+        console.log("if statement run")
     }
     else{
-        console.log(subject);
-        submission = await getSubmission({ student: req.user.id,isQuiz:quiz,subject:subject }).populate('quizId').populate('assignmentId');
+        // console.log("body: ", req.body)
+        console.log("query: ",req.query)
+        // console.log(quiz);
+        console.log(req.user.id);
+        submission = await getSubmission({ student: req.user.id,isQuiz:quiz,subject:subject })
+        console.log(submission);
     }
 
     generateResponse(submission, "Submission fetched successfully", res);
@@ -121,7 +128,7 @@ export const deleteSubmission = asyncHandler(async (req, res, next) => {
 export const checkStatus = asyncHandler(async (req, res, next) => {
     const submission = await getSubmission({ assignmentId: req.query.assignmentId,student:req.user.id});
     if(submission.length === 0){
-        generateResponse('Pending', "Submission not found", res);
+       return generateResponse('Pending', "Submission not found", res);
     }
 
     generateResponse('Submitted', "Submission fetched successfully", res);   
@@ -131,7 +138,7 @@ export const checkStatus = asyncHandler(async (req, res, next) => {
 export const checkStatusQuiz = asyncHandler(async (req, res, next) => {
     const submission = await getSubmission({ quizId: req.query.quizId,student:req.user.id});
     if(submission.length === 0){
-        generateResponse('Pending', "Submission not found", res);
+       return generateResponse('Pending', "Submission not found", res);
     }
 
     generateResponse('Submitted', "Submission fetched successfully", res);   
