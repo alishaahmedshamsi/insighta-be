@@ -10,6 +10,7 @@ const userSchema = new Schema({
     email: { type: String, lowercase: true },
     qualification:{type:String},
     rollNumber:{type:String},
+    location:{type:String},
     address:{type:String},
     profilePicture:{type:String},
     password: { type: String, select: false },

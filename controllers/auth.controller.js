@@ -16,6 +16,7 @@ export const register = asyncHandler(async (req, res, next) => {
         req.body.subject = findSubjects.map(subject => subject._id)
     }
     req.body.rollNumber = req.body.rollnumber
+    
     let user = await createUser(req.body);
     
     await createPoints({user:user._id})

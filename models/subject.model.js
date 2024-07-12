@@ -12,7 +12,6 @@ const subjectSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     },
-   
 });
 
 const Subject = mongoose.model('Subject', subjectSchema);

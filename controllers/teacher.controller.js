@@ -128,8 +128,17 @@ export const getSingleClassTeachers = asyncHandler(async (req, res, next) => {
         }
     ];
 
-    const teachers = await getAllUsers({ limit, page, query:pipeline});
+    pipeline.push({
+        $lookup:{
+            from:'subjects',
+            localField:'subject',
+            foreignField:'_id',
+            as:'subject'
+        }
+    })
 
+    const teachers = await getAllUsers({ limit, page, query:pipeline});
+    console.log(teachers);
     //  teachers.reviewStatus = await findReviewIfExist();
     
      generateResponse(teachers, "Teachers fetched successfully", res);

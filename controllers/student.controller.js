@@ -70,14 +70,12 @@ export const submitReview = asyncHandler(async (req, res, next) => {
   const responseText = aiResponse.response.text().trim();
   console.log(responseText);
 
-  
- 
   let reviewStatus;
   let points = 0;
 
   if (responseText.toLowerCase() === "good") {
     reviewStatus = "Good";
-    points = 10; 
+    points = 5; 
   } else if (responseText.toLowerCase() === "bad") {
     reviewStatus = "Bad";
     points = -5; 
@@ -105,7 +103,6 @@ export const submitReview = asyncHandler(async (req, res, next) => {
     teacherId,
     review: text,
     status: "Submitted",
-
   })
 
   generateResponse(
@@ -120,7 +117,8 @@ export const lecturePoints = asyncHandler(async (req, res, next) => {
 
   findPoints.lecture += 10;
   await findPoints.save();
-  
+
+  console.log(findPoints);
   generateResponse(
     { lectureId, points },
     "Lecture points submitted successfully",

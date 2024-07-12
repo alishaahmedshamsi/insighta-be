@@ -21,6 +21,7 @@ export default class SchoolAPI {
         this.router.get('/get/subjects/:id',authMiddleware(Object.values(ROLES)), getSubects);
         this.router.get('/fetch/users',authMiddleware(Object.values(ROLES)), users);
         
+        
     }
 
     getRouter() {
