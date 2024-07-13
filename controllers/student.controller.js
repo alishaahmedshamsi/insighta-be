@@ -7,7 +7,7 @@ import { getUser } from "../models/user.model.js";
 import { STATUS_CODES } from "../utils/constants.js";
 import { generateResponse, asyncHandler } from "../utils/helpers.js";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-
+import { createPointsLog } from "../models/pointsLog.model.js";
 export const fetchStudentsQuiz = asyncHandler(async (req, res) => {
   if (req.query.subject === undefined) {
     return next({
@@ -117,7 +117,7 @@ export const lecturePoints = asyncHandler(async (req, res, next) => {
 
   findPoints.lecture += 10;
   await findPoints.save();
-
+  await createPointsLog({ userId: req.user.id, title: "Lecture", points: 10 });
   console.log(findPoints);
   generateResponse(
     { lectureId, points },

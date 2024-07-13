@@ -5,6 +5,7 @@ import { getUser } from "../models/user.model.js";
 import uploadOnCloudinary from "../utils/cloudinary.js";
 import { STATUS_CODES } from "../utils/constants.js";
 import { generateResponse,asyncHandler } from "../utils/helpers.js";
+import { createPointsLog } from "../models/pointsLog.model.js";
 
 export const createSubmissions = asyncHandler(async (req, res, next) => {
     req.body.student = req.user.id;
@@ -42,11 +43,13 @@ export const createSubmissions = asyncHandler(async (req, res, next) => {
 
     const userPoints = await getPoints({ user: req.user.id });
     if(req.body.isQuiz){
-        userPoints.quiz += 20;        
+        userPoints.quiz += 10;        
     }else{
         userPoints.assignment += 10;
     }
+
     await userPoints.save();
+    await createPointsLog({userId:req.user.id,title:req.body.isQuiz == true ? 'Quiz Submission' : 'Assignment Submission',points:10});
     generateResponse(submission, "Submission created successfully", res);
 });
 

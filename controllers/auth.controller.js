@@ -2,6 +2,7 @@ import { generateResponse, asyncHandler, generateOTP } from '../utils/helpers.js
 import { createPoints, createUser, getUser } from '../models/index.js';
 import { ROLES, STATUS_CODES } from '../utils/constants.js';
 import { fetchSubject, findSubject } from '../models/subject.model.js';
+import { createPointsLog } from '../models/pointsLog.model.js';
 
 // register user
 export const register = asyncHandler(async (req, res, next) => {
@@ -20,6 +21,7 @@ export const register = asyncHandler(async (req, res, next) => {
     let user = await createUser(req.body);
     
     await createPoints({user:user._id})
+    // await createPointsLog({userId:user._id});
     
     // remove password
     user = user.toObject();
