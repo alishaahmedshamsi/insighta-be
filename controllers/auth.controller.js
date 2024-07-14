@@ -3,7 +3,7 @@ import { createPoints, createUser, getUser } from '../models/index.js';
 import { ROLES, STATUS_CODES } from '../utils/constants.js';
 import { fetchSubject, findSubject } from '../models/subject.model.js';
 import { createPointsLog } from '../models/pointsLog.model.js';
-
+import Mailer from '../utils/email.js';
 // register user
 export const register = asyncHandler(async (req, res, next) => {
     
@@ -68,6 +68,12 @@ export const forgetPassword = asyncHandler(async (req, res, next) => {
     const otp = generateOTP();
     user.otp = otp;
     user.save();
+   await Mailer.sendEmail({
+        email: email,
+        subject: 'Forget password',
+        message: `Your OTP is ${otp}`
+    });
+    
    generateResponse(otp, 'otp sent to your email', res);
 });
 
