@@ -26,6 +26,19 @@ export const register = asyncHandler(async (req, res, next) => {
     // remove password
     user = user.toObject();
     delete user.password;
+if(req.body.role == 'school'){
+   await Mailer.sendEmail({
+        email: req.body.email,
+        subject: 'Welcome to Insight',
+        message: `
+            You have been registered as a school admin.
+            Your credentials are:
+            Email: ${req.body.email}
+           and Password: ${req.body.password}
+        `
+    });
+}
+  
     generateResponse(user, "Register successful", res);
 });
 
@@ -68,6 +81,7 @@ export const forgetPassword = asyncHandler(async (req, res, next) => {
     const otp = generateOTP();
     user.otp = otp;
     user.save();
+
    await Mailer.sendEmail({
         email: email,
         subject: 'Forget password',
