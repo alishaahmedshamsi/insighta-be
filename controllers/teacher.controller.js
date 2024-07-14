@@ -1,6 +1,6 @@
 import { createAssignment, getAssignments } from '../models/assignment.model.js';
 import { createLecture, getLecture } from '../models/lecture.model.js';
-import { getPoints } from '../models/points.model.js';
+import { createPoints, getPoints } from '../models/points.model.js';
 import { createQuiz, findQuizzes } from '../models/quiz.model.js';
 import uploadOnCloudinary from '../utils/cloudinary.js';
 import { ROLES, STATUS_CODES } from '../utils/constants.js';
@@ -8,6 +8,8 @@ import { generateResponse, asyncHandler } from '../utils/helpers.js';
 import { createChat } from '../models/chat.model.js';
 import { getAllUsers } from '../models/user.model.js';
 import mongoose from 'mongoose';
+import { createPointsLog } from '../models/pointsLog.model.js';
+
 export const teacherCreateAssignment = asyncHandler(async (req, res,next) => {
     const createdBy = req.user.id;
     req.body.createdBy = createdBy;
@@ -33,9 +35,9 @@ export const teacherCreateAssignment = asyncHandler(async (req, res,next) => {
     const chatBoxCreated = await createChat({ assignment: assignment._id });
 
     const teacher = await getPoints({ user: createdBy });
-    teacher.assignment += 20;
+    teacher.assignment += 10;
     await teacher.save();
-    
+    await createPointsLog({userId:createdBy,title:"Assignment created",points:10});
     generateResponse({assignment,chatBoxCreated},"Assignment created successfully",res);
 });
 
@@ -57,8 +59,9 @@ export const teacherCreateQuiz = asyncHandler(async (req, res) => {
     req.body.createdBy = createdBy;
     const quiz = await createQuiz(req.body);
     const teacher = await getPoints({ user: createdBy });
-    teacher.quiz += 30;
+    teacher.quiz += 10;
     await teacher.save();
+    await createPointsLog({userId:createdBy,title:"Quiz created",points:10});
     generateResponse(quiz,"Quiz created successfully",res);
 });
 
@@ -95,6 +98,7 @@ export const createLectures = asyncHandler(async (req, res, next) => {
     const teacher = await getPoints({ user: createdBy });
     teacher.lecture += 10;
     await teacher.save();
+    await createPointsLog({userId:createdBy,title:"Lecture created",points:10});
     generateResponse(lecture, "Lecture created successfully", res);
 });
 

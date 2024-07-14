@@ -15,7 +15,6 @@ const pointsLogSchema = new mongoose.Schema({
 
 const PointsLog = mongoose.model('PointLog', pointsLogSchema);
 
-
 export const createPointsLog = (obj) => PointsLog.create(obj);
 export const findOnePontsLog = (query) => PointsLog.findOne(query);
 export const findUserPointsLog = (query) => PointsLog.find(query);

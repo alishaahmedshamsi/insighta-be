@@ -97,7 +97,8 @@ export const submitReview = asyncHandler(async (req, res, next) => {
   }
 
   await findTeacherPoints.save();
-
+  await createPointsLog({ userId: teacherId, title: "Review", points });
+  
   const reviews = createReview({
     studentId: req.user.id,
     teacherId,
