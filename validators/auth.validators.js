@@ -26,6 +26,8 @@ export const emailExistsValidator = asyncHandler(async (req, res, next) => {
         message: "Email already exists!"
     });
 
+    if (req.body.role === ROLES.SCHOOL || req.body.role === ROLES.TEACHER) return next();
+    
     const findUserWithRollNumber = await getUser({ $and: [{ rollNumber: req.body.rollnumber }, { role: ROLES.STUDENT }] });
     console.log(findUserWithRollNumber);
     if (findUserWithRollNumber) return next({
