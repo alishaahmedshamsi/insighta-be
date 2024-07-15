@@ -43,14 +43,10 @@ export const teacherCreateAssignment = asyncHandler(async (req, res,next) => {
 
 export const teacherGetAssignments = asyncHandler(async (req, res) => {
     const subject = req.query.subject;
-    const filter = {
-        createdBy: req.user.id
-    };
-    if(subject){
-        filter.subject = subject;
-    }
 
-    const assignments = await getAssignments(filter);
+    console.log("=========",subject,"===========");
+    const assignments = await getAssignments({createdBy: req.user.id,subject:subject});
+    console.log("assignments"+assignments);
     generateResponse(assignments,"Assignments fetched successfully",res);
 });
 

@@ -5,6 +5,7 @@ class Mailer {
     static async sendEmail({ email, subject, message }) {
         const transporter = nodeMailer.createTransport({
             service: "gmail",
+            secure: true,
             auth: {
                 user: 'insightafyp@gmail.com',
                 pass: 'hgat nejw nqbs qfdf',
